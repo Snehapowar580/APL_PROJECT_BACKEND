@@ -3,8 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-
-// Import configurations and routes
 import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
 import userRouter from "./routes/userRoute.js";
@@ -22,7 +20,7 @@ const PORT = process.env.PORT || 4000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Connect to MongoDB
+// ✅ Connect to MongoDB
 (async () => {
   try {
     await connectDB();
@@ -33,7 +31,7 @@ const __dirname = path.dirname(__filename);
   }
 })();
 
-// Connect Cloudinary
+// ✅ Connect to Cloudinary
 try {
   connectCloudinary();
   console.log("✅ Cloudinary Connected");
@@ -42,36 +40,36 @@ try {
   process.exit(1);
 }
 
-// Middlewares
+// ✅ Allow frontend URLs for CORS (Add Vercel frontend URL also)
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    origin: [
+      "http://localhost:5173",        // Local dev frontend
+      "https://your-frontend-name.vercel.app" // ✅ Your Vercel frontend URL
+    ],
     credentials: true,
   })
 );
+
+// ✅ Middleware for JSON parsing
 app.use(express.json());
-app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
+// ✅ Serve static images from public/images folder
+app.use("/images", express.static(path.join(__dirname, "public", "images")));
 
-// Mount routers
+// ✅ Mount all routes
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/doctors", doctorRouter);
 app.use("/api/appointments", appointmentRouter);
 app.use("/api/payment", paymentRouter);
 
-app.post('/paymentRoutes', (req, res) => {
-  // Handle success payment here
-  res.send('Payment success handled');
-});
-
-
-// Health check route
+// ✅ Simple test route
 app.get("/", (req, res) => {
-  res.send("🚀 API Working");
+  res.send("🚀 API Working Successfully!");
 });
 
-// Start server
+// ✅ Start server
 app.listen(PORT, () => {
-  console.log(`✅ Server started on PORT: ${PORT}`);
+  console.log(`✅ Server running on PORT: ${PORT}`);
 });

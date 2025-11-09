@@ -27,7 +27,7 @@ const registerDoctor = async (req, res) => {
     });
 
     await newDoctor.save();
-    res.status(201).json({ success: true, message: "Doctor registered successfully!" });
+    res.status(201).json({ success: true, message: " registered successfully!" });
   } catch (error) {
     console.error("Register error:", error);
     res.status(500).json({ success: false, message: "Server Error" });
@@ -95,7 +95,7 @@ const loginDoctor = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Doctor login error:", error);
+    console.error(" login error:", error);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -108,7 +108,7 @@ const getDashboardData = async (req, res) => {
   try {
     const docId = req.user.docId;
     if (!docId) {
-      return res.status(400).json({ success: false, message: "Doctor ID not found" });
+      return res.status(400).json({ success: false, message: " ID not found" });
     }
 
     const appointments = await appointmentModel.find({ docId });
@@ -142,7 +142,7 @@ const doctorList = async (req, res) => {
     const doctors = await doctorModel.find().select("-password");
     res.status(200).json({ success: true, doctors });
   } catch (error) {
-    console.error("Doctor list error:", error);
+    console.error(" list error:", error);
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
@@ -209,7 +209,7 @@ const changeAvailability = async (req, res) => {
     const doctor = await doctorModel.findById(docId);
 
     if (!doctor) {
-      return res.status(404).json({ success: false, message: "Doctor not found" });
+      return res.status(404).json({ success: false, message: "test not found" });
     }
 
     doctor.available = !doctor.available;
@@ -225,20 +225,20 @@ const changeAvailability = async (req, res) => {
 // ✅ Get Doctor Profile
 const doctorProfile = async (req, res) => {
   try {
-    console.log("Fetching doctor profile...");
+    console.log("Fetching test ...");
     const docId = req.user?.docId;
 
     if (!docId || !mongoose.Types.ObjectId.isValid(docId)) {
       return res.status(400).json({
         success: false,
-        message: "Invalid or missing Doctor ID",
+        message: "Invalid or missing  ID",
       });
     }
     const profileData = await doctorModel.findById(docId).select("-password");
     if (!profileData) {
       return res.status(404).json({
         success: false,
-        message: "Doctor profile not found",
+        message: " test not found",
       });
     }
     return res.json({
@@ -246,10 +246,10 @@ const doctorProfile = async (req, res) => {
       profile: profileData,
     });
   } catch (error) {
-    console.error("Error fetching doctor profile:", error);
+    console.error("Error fetching  :", error);
     return res.status(500).json({
       success: false,
-      message: "An error occurred while fetching the doctor profile",
+      message: "An error occurred while fetching the test",
     });
   }
 };
